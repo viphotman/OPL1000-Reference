@@ -7,6 +7,12 @@
 - Easy to configure work parameter by ParamCfg.exe tool. 
 - Automatically complete project compile and download operation.  
 
+## Demo video
+[*Opulinks sensor demo @ Youku*](https://v.youku.com/v_show/id_XNDA4NjEyNTgxNg==.html?spm=a2h3j.8428770.3416059.1)
+
+## Work Frame
+![avatar](sensor_frame.PNG)
+
 ## Directory and Content 
 
 **app** folder
