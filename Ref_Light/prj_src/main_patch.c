@@ -49,6 +49,7 @@ Head Block of The File
 #include "sys_init.h"
 #include "sys_init_patch.h"
 #include "sys_os_config.h"
+#include "hal_dbg_uart.h"
 
 
 // Sec 2: Constant Definitions, Imported Symbols, miscellaneous
@@ -203,4 +204,5 @@ static void Main_AppInit_patch(void)
 {
     //AppInit();
     BleWifiAppInit();
+    Hal_DbgUart_RxIntEn(0);
 }

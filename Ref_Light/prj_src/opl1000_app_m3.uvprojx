@@ -383,9 +383,9 @@
               <FilePath>.\main_patch.c</FilePath>
             </File>
             <File>
-              <FileName>mqtt-example.c</FileName>
+              <FileName>mqtt_example.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\mqtt-example.c</FilePath>
+              <FilePath>.\mqtt_example.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -461,51 +461,6 @@
               <FileName>symdefs.o</FileName>
               <FileType>3</FileType>
               <FilePath>.\lib\symdefs.o</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>sensor</GroupName>
-          <Files>
-            <File>
-              <FileName>ftoa_util.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\sensor\ftoa_util.c</FilePath>
-            </File>
-            <File>
-              <FileName>sensor_auxadc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\sensor\sensor_auxadc.c</FilePath>
-            </File>
-            <File>
-              <FileName>sensor_common.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\sensor\sensor_common.c</FilePath>
-            </File>
-            <File>
-              <FileName>sensor_data.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\sensor\sensor_data.c</FilePath>
-            </File>
-            <File>
-              <FileName>sensor_data_task.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\sensor\sensor_data_task.c</FilePath>
-            </File>
-            <File>
-              <FileName>sensor_notify.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\sensor\sensor_notify.c</FilePath>
-            </File>
-            <File>
-              <FileName>sensor_polling.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\sensor\sensor_polling.c</FilePath>
-            </File>
-            <File>
-              <FileName>sensor_sys.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\sensor\sensor_sys.c</FilePath>
             </File>
           </Files>
         </Group>
