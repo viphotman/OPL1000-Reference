@@ -7,6 +7,9 @@
 - Easy to configure work parameter by ParamCfg.exe tool. 
 - Automatically complete project compile and download operation.  
 
+## Work Frame
+![avatar](smart_lighting_frame.PNG)
+
 ## Directory and Content 
 
 **app** folder
