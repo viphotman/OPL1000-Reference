@@ -8,7 +8,8 @@
 - Automatically complete project compile and download operation.  
 
 ## Demo video
-[*Opulinks sensor demo @ Youku*](https://v.youku.com/v_show/id_XNDA4NjEyNTgxNg==.html?spm=a2h3j.8428770.3416059.1)
+- [*Opulinks sensor demo @ Youku*](https://v.youku.com/v_show/id_XNDA4NjEyNTgxNg==.html?spm=a2h3j.8428770.3416059.1)
+- [*Opulinks sensor demo @ Youtube*](https://youtu.be/44ZsL_0kH90)
 
 ## Work Frame
 ![avatar](sensor_frame.PNG)
