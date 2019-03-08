@@ -7,6 +7,10 @@
 - Easy to configure work parameter by ParamCfg.exe tool. 
 - Automatically complete project compile and download operation.  
 
+## Demo video
+- [*Opulinks smart lighting demo @ Youku*](https://v.youku.com/v_show/id_XNDA4ODY4MzEwMA==.html?spm=a2hzp.8253869.0.0)
+- [*Opulinks smart lighting demo @ Youtube*]( https://youtu.be/_KhXGl-FtX4)
+
 ## Work Frame
 ![avatar](smart_lighting_frame.PNG)
 
