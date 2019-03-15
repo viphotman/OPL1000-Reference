@@ -1,8 +1,9 @@
 ## OPL1000-Reference
 - OPL1000-Reference is Opulinks official IOT reference design for OPL1000 chip. It contains from embedded device to mobile application complete integrated design. 
-- OPL1000-Reference package provides two kind of solutions. All of them connect to Ali cloud. 
+- OPL1000-Reference package provides three kinds of solutions. All of them connect to Ali cloud. 
   - IOT sensor type application, single chip solution, application runs on OPL1000 M3 MCU. Here temperature sensor is adopted, internal PMU power supply scheme is used.  
   - IOT light application, single chip solution, application runs on OPL1000 M3 MCU. Here external LDO power supply scheme is used.    
+  - IOT scaler application, two chips solution. External MCU is master, OPL1000 is slave device acting as transport module. In this reference Arduino MEGA2560 is used as external MCU.    
 - OPL1000-Reference uses BLE config WIFI method to connect Internet (cloud). 
 - Three tools are provides in this package, they are: 
   1.  General parameter configure tool, which is used to modify work mode parameters and complete compile, download operation along with. 
