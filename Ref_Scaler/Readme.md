@@ -10,7 +10,7 @@
 
 ## Demo video
 - [*Opulinks scaler demo @ Youku*](https://v.youku.com/v_show/id_XNDA5Nzc5NzEyMA==.html?spm=a2h3j.8428770.3416059.1)
-- [*Opulinks scaler demo @ Youtube*](https://youtu.be/)
+- [*Opulinks scaler demo @ Youtube*](https://youtu.be/3wrcTyPg6G0)
 
 ## Work Frame
 ![avatar](scaler_frame.PNG)

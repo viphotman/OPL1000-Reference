@@ -11,7 +11,9 @@
 
 /*
  *  Revision History:
- *  1. SH SDK, Mar.14, v0.1 first version  
+ *  1. SH SDK, Mar.14, v1.0 first version 
+ *  2. SH SDK, Mar.18, v1.1 refine LCD display by displaying initializing
+ *             after done with former loop. 
  *  
 */
 #include <LiquidCrystal.h>
@@ -25,8 +27,8 @@
 // Define values for sleep mode.
 // If there is no weight data available within (SLEEP_INTERVAL * SLEEP_COUNT),
 // It would trige OPL1000 into deep sleep mode. take Second as unit.
-#define SLEEP_INTERVAL       3
-#define SLEEP_COUNT          5
+#define SLEEP_INTERVAL       5
+#define SLEEP_COUNT          12
 
 // Define HX711 pin and value.
 //SCK pin is used to provide clock for HX711 module communication
@@ -61,14 +63,14 @@
 #define LCD_MSG_INIT             "Initializing..."
 #define LCD_MSG_AP_CONNECTED     "AP Connected"
 #define LCD_MSG_AP_DISCONNECTED  "AP Disconnected"
-#define LCD_MSG_WEIGHT           "Weight:"
+#define LCD_MSG_WEIGHT           "Weight = "
 #define LCD_MSG_UPLOADING        "Uploading"
 #define LCD_MSG_UPLOAD_SUCCESS   "Upload Success"
 #define LCD_MSG_AP_UPLOAD_FAILED "Upload Failed"
 #define LCD_MSG_AP_CLOSE_DEVICE  "Close Device"
 
 // define firmware version: 
-String fw_version = "v1.0";
+String fw_version = "v1.1";
 
 // ====== HW Definition HERE AP
 
@@ -141,24 +143,31 @@ void loop()
 {
   uint8_t err_type = 0;
   uint8_t i = 0;
-  String weight_str = String("") + "Weight = ";
+  String outMsg;
+  String weight_str = String("");
   
   Serial.println("Enter loop...");  // For debug.
   
   if (doMeasureWeight() > 0) // Get valid weight case.
   {
     Sleep_Counter = 0;    // re-initialize the sleep counter value.
+
 	if (opl1000_connected_ap == 0)
 	{
       OPL1000_wakeup();     // TBD
 	  delay(200);
 	}
 	
-	weight_str.concat(Weight);
-	weight_str.concat(" g");
-    //Serial2.println(weight_str);
+	if (Weight < 100)
+	{
+	  goto End;
+	}
+	
+	weight_str = String("Weight = ") + Weight + " g";
+	//Serial2.println(weight_str);
 	Serial.println(weight_str);
 	LCD_display(weight_str,0);
+	delay(2000);
 
 	for (i = 0;i < COUNT;i++)
 	{
@@ -184,9 +193,9 @@ void loop()
 	}
 	
 	OPL1000_send_data();    // Send weight data to opl1000.
-	delay(1000);
 	LCD_display_upload_status(String(LCD_MSG_UPLOADING));
 	Serial.println(LCD_MSG_UPLOADING);
+	delay(1000);
 	
 	for (i = 0;i < COUNT;i++)
 	{
@@ -196,6 +205,7 @@ void loop()
 		opl1000_connected_cloud = 1;
 		LCD_display_upload_status(String(LCD_MSG_UPLOAD_SUCCESS));
 		Serial.println(LCD_MSG_UPLOAD_SUCCESS);
+		Weight = 0;
 		break;
 	  }
 	  else
@@ -209,15 +219,19 @@ void loop()
 	{
 		LCD_display_upload_status(String(LCD_MSG_AP_UPLOAD_FAILED));
 		Serial.println(LCD_MSG_AP_UPLOAD_FAILED);
+		Weight = 0;
 		delay(1000);
 	}
   }
   else
   {
 	Sleep_Counter++;
+    outMsg =  String("Scaler ") + fw_version;
+    LCD_display(outMsg,0);
   }
   
   End:
+  Weight = 0;
   if (Sleep_Counter >= SLEEP_COUNT)
   {
     goto_sleep_mode();
@@ -237,15 +251,19 @@ void LCD_display(String str,int line)
 	delay(100);
 	lcd.setCursor(0,0);
 	lcd.print(str);
+	delay(100);
   }
   else if(line == 1)
   {
     lcd.setCursor(0,1);
     lcd.print(str);
+	delay(100);
   }
   else
   {
-	Serial.println("Invalid message!");
+	Serial.println("Invalid msg");
+	lcd.clear();
+	delay(100);
   }	  
   delay(100);          //delay 100ms  
 }
@@ -253,12 +271,11 @@ void LCD_display(String str,int line)
 /* LCD display update data status. */
 void LCD_display_upload_status(String str)
 {
-  String str_first_line = String("") + LCD_MSG_WEIGHT;
-
-  str_first_line.concat(Weight);
-  str_first_line.concat(" g");
+  String str_first_line = String("") + LCD_MSG_WEIGHT + Weight + " g";
   LCD_display(str_first_line,0);
+  delay(100);
   LCD_display(str,1);
+  delay(100);
 }
 
 //****************************************************
@@ -266,16 +283,13 @@ void LCD_display_upload_status(String str)
 //****************************************************
 // build "AT+DATA,data" at command with weight data.
 String OPL1000_build_data(long weight_data) {
-  String str = String("") + AT_CMD_SEND_DATA;
-
-  str.concat(weight_data);
-  str.concat("\r\n");
+  String str = String("") + AT_CMD_SEND_DATA + weight_data + "\r\n";
   Serial.println("write command");  // for debug.
   return str;
 }
 
 // Send at command.
-uint8_t OPL1000_write_command(String cmd) {
+void OPL1000_write_command(String cmd) {
   // uint8_t wrLen = cmd.length()+1;
 
   // Waiting for RX is empty
@@ -285,17 +299,15 @@ uint8_t OPL1000_write_command(String cmd) {
 
   Serial1.println(cmd);
   Serial.println("write command");
-  return 1;
 }
 
 // Send weight dataat command.
-uint8_t OPL1000_send_data() {
+void OPL1000_send_data() {
   String data = OPL1000_build_data(Weight);
 
   OPL1000_write_command(data);
   Serial.println("send data command");
   Serial.println(Weight);
-  return 1;
 }
 
 // Get result of at command.
@@ -390,9 +402,9 @@ long HX711_Get_Weight()
   Weight_Real = HX711_Buffer;
   Weight_Real = Weight_Real - Weight_Rough;  // Get object AD sample value 
   
-  Weight_Real = (long)((float)Weight_Real/ValueGap+0.05);   
+  Weight_Real = (long)((float)(Weight_Real/ValueGap)+0.05);   
 
-  if(Weight_Real <0) {
+  if(Weight_Real < 0) {
     Weight_Real = 0 - Weight_Real;
   }
     
@@ -436,10 +448,10 @@ unsigned long HX711_Read() // Gain 128
 
 // Return 0 if timeout
 // Retrun >0, success
-uint8_t doMeasureWeight()
+int doMeasureWeight()
 {
-  uint8_t timeout = SLEEP_INTERVAL;
-  uint8_t Weight_Done = 0;
+  int timeout = SLEEP_INTERVAL;
+  int Weight_Done = 0;
   led_stat = HIGH;
   
   digitalWrite(LED, led_stat);    // lighten LED indicate init is done 
@@ -457,8 +469,9 @@ uint8_t doMeasureWeight()
   if (timeout > 0) {
     while (!Weight_Done) {
       Weight = HX711_Get_Weight();    // current sensor weight value 
-      delay(500);
-      if (Weight == HX711_Get_Weight()) {
+      delay(40);
+      //if (Weight == HX711_Get_Weight()) {
+	  if (abs(HX711_Get_Weight() - Weight) <= 20) {
         Weight_Done = 1;
       }
     }

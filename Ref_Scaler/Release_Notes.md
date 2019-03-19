@@ -1,4 +1,23 @@
 ## Release Version:
+Reference Package: v1.1.4.2
+Library : 2995
+ROM_CODE: 1655 
+
+## Release Date: 2019/3/19
+
+## Function & Feature Update 
+1. Add Demo video youtube access link in readme file. 
+2. Arduino firmware is updated to v1.1 version 
+
+## Bug Fix List 
+1. Fix a bug in Arduino firmware in weighting operation.
+
+## Notes List 
+1. Not support user profile define function in APP side yet. 
+
+****************
+
+## Release Version:
 Reference Package: v1.1.4.1
 Library : 2995
 ROM_CODE: 1655 
